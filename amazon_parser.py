@@ -33,14 +33,13 @@ def _parserJSON(path, numLines=None):
    return reviews
 
 
-# take only first 10,0000 for ease
-reviews = _parserJSON('./revised-data.txt', 1000) # 90000
-print(reviews)
-# for num, review in enumerate(reviews):
-#    try:
-#       print(review)
-#    except Exception as e:
-#       print(num, e)
+# put in a number of lines to read from file 
+# or put in no number and it will read all
+reviews = _parserJSON('./revised-data.txt',) # 90000
+
+
+
+# create a dict with reviewer ID as key and a list of the reviewers reviews as the value
 reviewers = {}
 print("Number of reviews:", len(reviews))
 for review in reviews:
@@ -49,9 +48,10 @@ for review in reviews:
       reviewers[reviewerId] = [review]
    else:
       reviewers[reviewerId].append(review)
-
+      
 print("Number of reviewers:", len(reviewers))
 
+# create a dict with product ID as the key and a list of the product's reviews as the value
 products = {}
 for review in reviews:
    productId = review["productId"]
