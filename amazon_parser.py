@@ -24,7 +24,7 @@ if groups are determined by the "only review these products" rule, than there wo
 '''
 
 
-def _parserJSON(path, numLines=None):
+def parserJSON(path, numLines=None):
    numLines = numLines or len(open(path).read().split("\n")) - 1
    with open(path) as txt:
       reviews = [eval(next(txt)) for x in range(numLines)]
@@ -33,28 +33,27 @@ def _parserJSON(path, numLines=None):
 
 # put in a number of lines to read from file 
 # or put in no number and it will read all
-reviews = _parserJSON('./revised-data.txt',)
+reviews = parserJSON('./revised-data.txt',)
 
 # create a dict with reviewer ID as key and a list of the reviewers reviews as the value
-reviewers = {}
-print("Number of reviews:", len(reviews))
-for review in reviews:
-   reviewerId = review["memberId"]
-   if reviewerId not in reviewers:
-      reviewers[reviewerId] = [review]
-   else:
-      reviewers[reviewerId].append(review)
-
-print("Number of reviewers:", len(reviewers))
+def get_reviewers(reviews):
+   reviewers = {}
+   print("Number of reviews:", len(reviews))
+   for review in reviews:
+      reviewerId = review["memberId"]
+      if reviewerId not in reviewers:
+         reviewers[reviewerId] = [review]
+      else:
+         reviewers[reviewerId].append(review)
+   return reviewers
 
 # create a dict with product ID as the key and a list of the product's reviews as the value
-products = {}
-for review in reviews:
-   productId = review["productId"]
-   if productId not in products:
-      products[productId] = [review]
-   else:
-      products[productId].append(review)
-
-print("Number of products:", len(products))
-
+def get_products(reviews):
+   products = {}
+   for review in reviews:
+      productId = review["productId"]
+      if productId not in products:
+         products[productId] = [review]
+      else:
+         products[productId].append(review)
+   return products
