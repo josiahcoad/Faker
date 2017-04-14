@@ -35,9 +35,7 @@ def _parserJSON(path, numLines=None):
 
 # put in a number of lines to read from file 
 # or put in no number and it will read all
-reviews = _parserJSON('./revised-data.txt',) # 90000
-
-
+reviews = _parserJSON('./revised-data.txt',)
 
 # create a dict with reviewer ID as key and a list of the reviewers reviews as the value
 reviewers = {}
@@ -48,7 +46,7 @@ for review in reviews:
       reviewers[reviewerId] = [review]
    else:
       reviewers[reviewerId].append(review)
-      
+
 print("Number of reviewers:", len(reviewers))
 
 # create a dict with product ID as the key and a list of the product's reviews as the value
