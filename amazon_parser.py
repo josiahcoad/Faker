@@ -26,7 +26,7 @@ if groups are determined by the "only review these products" rule, than there wo
 
 def _parserJSON(path, numLines=None):
    numLines = numLines or len(open(path).read().split("\n")) - 1
-   with open(path, encoding='utf-8') as txt:
+   with open(path) as txt:
       reviews = [eval(next(txt)) for x in range(numLines)]
    return reviews
 
