@@ -45,7 +45,11 @@ def get_reviewers(reviews):
          reviewers[reviewerId] = [review]
       else:
          reviewers[reviewerId].append(review)
-   return reviewers
+   final_reviewers = {}
+   for reviewer in reviewers:
+      if len(reviewers[reviewer]) >= 3:
+         final_reviewers[reviewer] = reviewers[reviewer]
+   return final_reviewers
 
 # create a dict with product ID as the key and a list of the product's reviews as the value
 def get_products(reviews):
