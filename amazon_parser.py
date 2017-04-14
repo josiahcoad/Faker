@@ -1,5 +1,3 @@
-import json, pprint, numpy
-
 # find out how many groups there that meet the following criteria
 '''
 members reviewed 3 or more of the same products (and no others?)
