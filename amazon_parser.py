@@ -11,8 +11,8 @@ members posted within 4 days of eachother
 >>1. earliness of reviews - Group Early Time Frame (GETF)
 2. group deviation (diff between rating from group and non-group members) (GD)
 >>>3. group content similarity (similarity between all reviews in the group) (GCS)
-4. group member content similarity - for each member in the group, how similar are their own reviews? (GMCS) 
->>5. time closeness of reviews - g time window (GTW) 
+4. group member content similarity - for each member in the group, how similar are their own reviews? (GMCS)
+>>5. time closeness of reviews - g time window (GTW)
 size of group (normalized)
 '''
 
@@ -31,9 +31,9 @@ def parserJSON(path, numLines=None):
    return reviews
 
 
-# put in a number of lines to read from file 
+# put in a number of lines to read from file
 # or put in no number and it will read all
-reviews = parserJSON('./revised-data.txt',)
+reviews = parserJSON('./amazon-review-data.json',)
 
 # create a dict with reviewer ID as key and a list of the reviewers reviews as the value
 def get_reviewers(reviews):
