@@ -1,7 +1,7 @@
 ## write a function to normalize the given vector
 
 
-import  amazon_parser as ap
+from modules import amazon_parser as ap
 from collections import defaultdict
 
 

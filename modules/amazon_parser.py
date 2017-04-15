@@ -37,7 +37,10 @@ def parserJSON(path, numLines=None):
 
 # put in a number of lines to read from file
 # or put in no number and it will read all
-reviews = parserJSON('./amazon-review-data.json',)
+
+######
+###reviews = parserJSON('./library/amazon-review-data.json',)
+######
 
 
 # create a dict with reviewer ID as key and a list of the reviewers reviews as the value
@@ -68,8 +71,17 @@ def get_products(reviews):
    return products
 
 
-reviewers = get_reviewers(reviews)
-busiest = max(reviewers.keys(), key=(lambda key: len(reviewers[key])))
+# - ADD COMMON-USED FUNCTION HERE
+
+
+
+
+
+
+
+#reviewers = get_reviewers(reviews)
+#busiest = max(reviewers.keys(), key=(lambda key: len(reviewers[key])))
+
 # print(len(reviewers[busiest]))
 # busiest = {}
 # for r in get_reviewers(reviews):

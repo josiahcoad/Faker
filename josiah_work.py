@@ -1,6 +1,6 @@
-from amazon_parser import *
+from modules.amazon_parser import *
 
-reviews = parserJSON('./revised-data.txt', 100)
+reviews = parserJSON('./library/amazon-review-data.json', 100)
 
 # sort dictionary reviews by len of reviews
 reviewers = get_reviewers(reviews)
