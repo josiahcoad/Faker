@@ -16,3 +16,9 @@ reviews = parserJSON('./library/amazon-review-data.json',)
 
 ## API Reference
 
+```python
+parserJSON(path, numLines=None) #which will return a dictionary according to the top-numLines, the default is all Lines.
+get_reviewers(reviews) #parse in your review dictionary and return a dictionary with keys of all reviewerID.
+get_products #parse in your review dictionary and return a dictionary with keys of all productID.
+```
+
