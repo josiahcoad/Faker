@@ -21,5 +21,7 @@ get_reviewers(reviews)
 
 get_products(reviews)
 #parse in your review dictionary and return a dictionary with keys of all productID.
-```
 
+normalizedVector(vector)
+#parse in a vecotr(type of dictionary) and return a normalized vector.
+```
