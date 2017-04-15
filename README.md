@@ -8,7 +8,11 @@ print s
 ```
 
 ## Code Example
-
+To import the API and initialize your dictionary, please add these two lines at the top of your .py file.
+```python
+from modules.amazon_parser import *
+reviews = parserJSON('./library/amazon-review-data.json',)
+```
 
 ## API Reference
 
