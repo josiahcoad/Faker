@@ -1,3 +1,4 @@
+from collections import defaultdict
 # find out how many groups there that meet the following criteria
 '''
 members reviewed 3 or more of the same products (and no others?)
@@ -73,10 +74,14 @@ def get_products(reviews):
 
 # - ADD COMMON-USED FUNCTION HERE
 
-
-
-
-
+def normalizedVector(vector):
+    total = 0
+    for key in vector:
+        total += vector[key] ** 2
+    total = total ** 0.5
+    for key in vector:
+        vector[key] /= total
+    return vector
 
 
 #reviewers = get_reviewers(reviews)

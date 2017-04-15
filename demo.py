@@ -12,3 +12,7 @@ reviews = parserJSON('./library/amazon-review-data.json',)
 # do something
 # ....
 # ....
+
+a = {'a':1, 'b':2, 'c':3}
+
+print(normalizedVector(a))
