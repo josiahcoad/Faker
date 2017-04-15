@@ -24,6 +24,9 @@ if groups are determined by the "only review these products" rule, than there wo
 '''
 
 
+# returns a list of reviews represented as dict objects.
+# put in a number of lines to read from file
+# or put in no number and it will read all
 def parserJSON(path, numLines=None):
    numLines = numLines or len(open(path).read().split("\n")) - 1
    with open(path) as txt:
@@ -31,9 +34,11 @@ def parserJSON(path, numLines=None):
    return reviews
 
 
+
 # put in a number of lines to read from file
 # or put in no number and it will read all
 reviews = parserJSON('./amazon-review-data.json',)
+
 
 # create a dict with reviewer ID as key and a list of the reviewers reviews as the value
 def get_reviewers(reviews):
@@ -45,7 +50,11 @@ def get_reviewers(reviews):
          reviewers[reviewerId] = [review]
       else:
          reviewers[reviewerId].append(review)
-   return reviewers
+   final_reviewers = {}
+   for reviewer in reviewers:
+      if len(reviewers[reviewer]) >= 3:
+         final_reviewers[reviewer] = reviewers[reviewer]
+   return final_reviewers
 
 # create a dict with product ID as the key and a list of the product's reviews as the value
 def get_products(reviews):
@@ -57,3 +66,11 @@ def get_products(reviews):
       else:
          products[productId].append(review)
    return products
+
+
+reviewers = get_reviewers(reviews)
+busiest = max(reviewers.keys(), key=(lambda key: len(reviewers[key])))
+# print(len(reviewers[busiest]))
+# busiest = {}
+# for r in get_reviewers(reviews):
+   # if
