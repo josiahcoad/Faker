@@ -47,6 +47,15 @@ G2 - (A, B, C) : U2, U3
 '''
 # there should, of course, only be G1 - (A, B, C) : U1, U2, U3
 # we could just check to make sure there isn't already a group for (A, B, C) but there's got to be a smarter way
+
+# theres another problem...
+# consider the following scenerio
+'''
+U1 : A, B, C, D, E, F
+U2 : A, B, C
+U3 :          D, E, F
+'''
+# according to this algo, they would all be in the same group but have NONE shared products
 groups = []
 for i in range(len(reviewers_products)-1):
    ref_user = reviewers_products[i]
