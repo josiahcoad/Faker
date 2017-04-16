@@ -18,7 +18,7 @@ for r in reviewers:
 
 # create a list of tuples... with first entry being the reviewer 
 # and second being a concatenated string of the product ids reviewed 
-print()
+
 # this way, if two reviewers reviewed the same objects, they'll be adjacent
 reviewers_short = []
 for reviewer in reviewers:
