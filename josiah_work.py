@@ -1,23 +1,21 @@
 from __future__ import print_function
 from modules.amazon_parser import *
 
-reviews = parserJSON('./library/amazon-review-data.json')
+reviews = parserJSON('./library/amazon-review-data.json',1000)
 # get dictionary with each user as key and a list of their reviews as value
 reviewers = get_reviewers(reviews)
-# remove all reviewers who left review rates of anything other than 1 or 5
-# also remove all reviewers who reviewed less than 3 products
-reviewers = filter_reviewers(reviewers)
+# remove all reviewers who reviewed less than 3 products
+reviewers = remove_lessthan3(reviewers)
 # change dictionary into list of tuples
 reviewers = reviewers.items()
-# sort reviewers by the number of reviews they left
-reviewers.sort(key=lambda x: len(x[1]))
+# remove all review which have rates of anything other than 1 or 5
+reviewers = remove_2though4_star_ratings(reviewers)
 
 # create a list of tuples... with first entry being the reviewer 
 # and second being a concatenated string of the product ids reviewed
-
 reviewers_short = []
 for reviewer in reviewers:
-   reviewers_short.append((reviewer[0], "".join([review["productId"] for review in reviewer[1]])))
+   reviewers_short.append( (reviewer[0], [review["productId"] for review in reviewer[1]]) )
 
 # sort the list of reviewers_short by their concatenated productId's
 # this way, if two reviewers reviewed the same products, they'll be adjacent
@@ -26,7 +24,7 @@ reviewers_short.sort(key=lambda review: review[1])
 
 # compare adjacent reviewers to see if any are the same
 for i in range(len(reviewers_short)-1):
-   if reviewers_short[i][1][:20] == reviewers_short[i+1][1][:20]:
+   if reviewers_short[i][1][:3] == reviewers_short[i+1][1][:3]:
       print(reviewers_short[i][0], reviewers_short[i+1][0])
 
 
@@ -43,3 +41,5 @@ for i in range(len(reviewers_short)-1):
 #    r[1].sort(key=lambda review: review["productId"])
 
 # print(*reviewers_short, sep="\n\n")
+# # now sort reviewers by the number of reviews they left
+# reviewers.sort(key=lambda x: len(x[1]))

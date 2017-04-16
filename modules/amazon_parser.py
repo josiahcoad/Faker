@@ -55,18 +55,20 @@ def get_reviewers(reviews):
    return reviewers
 
 
-# filter out reviewers who didn't review more than three products and didn't leave a 1 or 5 star rating
+# filter out reviewers who did reviewed less than three products
 # according to the paper, fraud reviewers will review at least three products to get their money's worth
-# and they won't leave anything other than 1 or 5 star reviews.
-def filter_reviewers(reviewers):
+def remove_lessthan3(reviewers):
    final_reviewers = {}
    for reviewer in reviewers:
       if len(reviewers[reviewer]) >= 3:
-         # if all(rating == 1 or rating == 5 for review["Rate"] in reviewers[reviewer):
-         final_reviewers[reviewer] = reviewers[reviewer]
-   print("Number of reviewers after filtering:", len(final_reviewers))
+            final_reviewers[reviewer] = reviewers[reviewer]
+   print("Number of reviewers with three or more products:", len(final_reviewers))
    return final_reviewers
 
+# takes a list of tuples of (reviewers, reviews)
+# returns the same list but any ratings which are between 1 and 5 are removed
+def remove_2though4_star_ratings(reviewers):
+  return [(r[0], [review for review in r[1] if review["Rate"] == 1 or review["Rate"] == 5]) for r in reviewers]
 
 # create a dict with product ID as the key and a list of the product's reviews as the value
 def get_products(reviews):
