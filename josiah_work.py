@@ -15,22 +15,22 @@ for r in reviewers:
    # r[1] is the list of their reviews
    r[1].sort(key=lambda review: review["productId"])
 
-
 # create a list of tuples... with first entry being the reviewer 
 # and second being a concatenated string of the product ids reviewed 
+# reviewers_short = (reviewerId, concenated version of all their productId's)
 
 # this way, if two reviewers reviewed the same objects, they'll be adjacent
 reviewers_short = []
 for reviewer in reviewers:
    reviewers_short.append((reviewer[0], "".join([review["productId"] for review in reviewer[1]])))
 # print(*reviewers_short, sep="\n\n")
+reviewers_short.sort(key=lambda review: review[1])
+
 
 # compare adjacent reviewers to see if any are the same
 for i in range(len(reviewers_short)-1):
-   if reviewers_short[i][1][:4] == reviewers_short[i+1][1][:4]:
-      print(reviewers_short[i])
-
-
+   if reviewers_short[i][1][:20] == reviewers_short[i+1][1][:20]:
+      print(reviewers_short[i][0], reviewers_short[i+1][0])
 
 
 
