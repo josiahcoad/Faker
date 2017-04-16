@@ -1,3 +1,4 @@
+from __future__ import print_function
 from collections import defaultdict
 # find out how many groups there that meet the following criteria
 '''
@@ -29,15 +30,12 @@ if groups are determined by the "only review these products" rule, than there wo
 # put in a number of lines to read from file
 # or put in no number and it will read all
 def parserJSON(path, numLines=None):
-   numLines = numLines or len(open(path).read().split("\n")) - 1
-   with open(path) as txt:
-      reviews = [eval(next(txt)) for x in range(numLines)]
-   return reviews
+  numLines = numLines or len(open(path).read().split("\n")) - 1
+  with open(path) as txt:
+    reviews = [eval(next(txt)) for x in range(numLines)]
+  print("Number of reviews:", len(reviews))
+  return reviews
 
-
-
-# put in a number of lines to read from file
-# or put in no number and it will read all
 
 ######
 ###reviews = parserJSON('./library/amazon-review-data.json',)
@@ -47,18 +45,28 @@ def parserJSON(path, numLines=None):
 # create a dict with reviewer ID as key and a list of the reviewers reviews as the value
 def get_reviewers(reviews):
    reviewers = {}
-   print("Number of reviews:", len(reviews))
    for review in reviews:
       reviewerId = review["memberId"]
       if reviewerId not in reviewers:
          reviewers[reviewerId] = [review]
       else:
          reviewers[reviewerId].append(review)
+   print("Number of reviewers:", len(reviewers))
+   return reviewers
+
+
+# filter out reviewers who didn't review more than three products and didn't leave a 1 or 5 star rating
+# according to the paper, fraud reviewers will review at least three products to get their money's worth
+# and they won't leave anything other than 1 or 5 star reviews.
+def filter_reviewers(reviewers):
    final_reviewers = {}
    for reviewer in reviewers:
       if len(reviewers[reviewer]) >= 3:
+         # if all(rating == 1 or rating == 5 for review["Rate"] in reviewers[reviewer):
          final_reviewers[reviewer] = reviewers[reviewer]
+   print("Number of reviewers after filtering:", len(final_reviewers))
    return final_reviewers
+
 
 # create a dict with product ID as the key and a list of the product's reviews as the value
 def get_products(reviews):
