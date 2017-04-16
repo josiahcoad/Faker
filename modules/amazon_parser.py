@@ -42,7 +42,7 @@ def parserJSON(path, numLines=None):
 ######
 
 
-# create a dict with reviewer ID as key and a list of the reviewers reviews as the value
+# create a list of tuples with reviewer ID as key and a list of the reviewers reviews as the value
 def get_reviewers(reviews):
    reviewers = {}
    for review in reviews:
@@ -52,23 +52,21 @@ def get_reviewers(reviews):
       else:
          reviewers[reviewerId].append(review)
    print("Number of reviewers:", len(reviewers))
-   return reviewers
+   return reviewers.items()
 
 
-# filter out reviewers who did reviewed less than three products
+# takes a list of tuples (reviewer, reviews)
+# filter out reviewers who did reviewed less than three products which have been rated 1 or 5 star
 # according to the paper, fraud reviewers will review at least three products to get their money's worth
-def remove_lessthan3(reviewers):
-   final_reviewers = {}
-   for reviewer in reviewers:
-      if len(reviewers[reviewer]) >= 3:
-            final_reviewers[reviewer] = reviewers[reviewer]
-   print("Number of reviewers with three or more products:", len(final_reviewers))
-   return final_reviewers
+def remove_lessthan3(reviewers_reviews):
+   final = []
+   for reviewer, reviews in reviewers_reviews:
+      reviews = list(filter(lambda review: review["Rate"] == 1 or review["Rate"] == 5, reviews))
+      if len(reviews) >= 3:
+            final.append( (reviewer, reviews) )
+   print("Number of reviewers with three or more reviews rated 1 or 5 star:", len(final))
+   return final
 
-# takes a list of tuples of (reviewers, reviews)
-# returns the same list but any ratings which are between 1 and 5 are removed
-def remove_2though4_star_ratings(reviewers):
-  return [(r[0], [review for review in r[1] if review["Rate"] == 1 or review["Rate"] == 5]) for r in reviewers]
 
 # create a dict with product ID as the key and a list of the product's reviews as the value
 def get_products(reviews):
@@ -94,6 +92,8 @@ def normalizedVector(vector):
     return vector
 
 
+
+'''Old Code'''
 #reviewers = get_reviewers(reviews)
 #busiest = max(reviewers.keys(), key=(lambda key: len(reviewers[key])))
 
@@ -101,3 +101,8 @@ def normalizedVector(vector):
 # busiest = {}
 # for r in get_reviewers(reviews):
    # if
+
+# # takes a list of tuples of (reviewers, reviews)
+# # returns the same list but any ratings which are between 1 and 5 are removed
+# def remove_2though4_star_ratings(reviewers):
+#   return [(r[0], [review for review in r[1] if review["Rate"] == 1 or review["Rate"] == 5]) for r in reviewers]
