@@ -42,7 +42,7 @@ def parserJSON(path, numLines=None):
 ######
 
 
-# create a list of tuples with reviewer ID as key and a list of the reviewers reviews as the value
+# create a dict with reviewer ID as key and a list of the reviewers reviews as the value
 def get_reviewers(reviews):
    reviewers = {}
    for review in reviews:
@@ -52,7 +52,7 @@ def get_reviewers(reviews):
       else:
          reviewers[reviewerId].append(review)
    print("Number of reviewers:", len(reviewers))
-   return reviewers.items()
+   return reviewers
 
 
 # takes a list of tuples (reviewer, reviews)
@@ -64,7 +64,7 @@ def remove_lessthan3(reviewers_reviews):
       reviews = list(filter(lambda review: review["Rate"] == 1 or review["Rate"] == 5, reviews))
       if len(reviews) >= 3:
             final.append( (reviewer, reviews) )
-   print("Number of reviewers with three or more reviews rated 1 or 5 star:", len(final))
+   print("Number of reviewers with 3+ reviews rated 1 or 5 star:", len(final))
    return final
 
 
