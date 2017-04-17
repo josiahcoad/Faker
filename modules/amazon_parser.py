@@ -1,3 +1,4 @@
+from __future__ import print_function
 from collections import defaultdict
 # find out how many groups there that meet the following criteria
 '''
@@ -29,15 +30,12 @@ if groups are determined by the "only review these products" rule, than there wo
 # put in a number of lines to read from file
 # or put in no number and it will read all
 def parserJSON(path, numLines=None):
-   numLines = numLines or len(open(path).read().split("\n")) - 1
-   with open(path) as txt:
-      reviews = [eval(next(txt)) for x in range(numLines)]
-   return reviews
+  numLines = numLines or len(open(path).read().split("\n")) - 1
+  with open(path) as txt:
+    reviews = [eval(next(txt)) for x in range(numLines)]
+  print("Number of reviews:", len(reviews))
+  return reviews
 
-
-
-# put in a number of lines to read from file
-# or put in no number and it will read all
 
 ######
 ###reviews = parserJSON('./library/amazon-review-data.json',)
@@ -47,18 +45,28 @@ def parserJSON(path, numLines=None):
 # create a dict with reviewer ID as key and a list of the reviewers reviews as the value
 def get_reviewers(reviews):
    reviewers = {}
-   print("Number of reviews:", len(reviews))
    for review in reviews:
       reviewerId = review["memberId"]
       if reviewerId not in reviewers:
          reviewers[reviewerId] = [review]
       else:
          reviewers[reviewerId].append(review)
-   final_reviewers = {}
-   for reviewer in reviewers:
-      if len(reviewers[reviewer]) >= 3:
-         final_reviewers[reviewer] = reviewers[reviewer]
-   return final_reviewers
+   print("Number of reviewers:", len(reviewers))
+   return reviewers
+
+
+# takes a list of tuples (reviewer, reviews)
+# filter out reviewers who did reviewed less than three products which have been rated 1 or 5 star
+# according to the paper, fraud reviewers will review at least three products to get their money's worth
+def remove_lessthan3(reviewers_reviews):
+   final = []
+   for reviewer, reviews in reviewers_reviews:
+      reviews = list(filter(lambda review: review["Rate"] == 1 or review["Rate"] == 5, reviews))
+      if len(reviews) >= 3:
+            final.append( (reviewer, reviews) )
+   print("Number of reviewers with 3+ reviews rated 1 or 5 star:", len(final))
+   return final
+
 
 # create a dict with product ID as the key and a list of the product's reviews as the value
 def get_products(reviews):
@@ -84,6 +92,8 @@ def normalizedVector(vector):
     return vector
 
 
+
+'''Old Code'''
 #reviewers = get_reviewers(reviews)
 #busiest = max(reviewers.keys(), key=(lambda key: len(reviewers[key])))
 
@@ -91,3 +101,8 @@ def normalizedVector(vector):
 # busiest = {}
 # for r in get_reviewers(reviews):
    # if
+
+# # takes a list of tuples of (reviewers, reviews)
+# # returns the same list but any ratings which are between 1 and 5 are removed
+# def remove_2though4_star_ratings(reviewers):
+#   return [(r[0], [review for review in r[1] if review["Rate"] == 1 or review["Rate"] == 5]) for r in reviewers]
