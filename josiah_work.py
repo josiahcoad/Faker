@@ -26,10 +26,11 @@ for reviewer in reviewers:
 # print(*reviewers_short, sep="\n\n")
 reviewers_short.sort(key=lambda review: review[1])
 
-
+for reviewers in reviewers_short:
+	print(len(reviewers[1]))
 # compare adjacent reviewers to see if any are the same
 for i in range(len(reviewers_short)-1):
-   if reviewers_short[i][1][:20] == reviewers_short[i+1][1][:20]:
+   if reviewers_short[i][1][:30] == reviewers_short[i+1][1][:30]:
       print(reviewers_short[i][0], reviewers_short[i+1][0])
 
 
