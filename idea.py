@@ -5,7 +5,7 @@ users = [("U1" , ['A', 'B', 'C', 'D', 'E', 'F']),
          ("U5" , ['A', 'B', 'C']               )]
 
 
-print(get_review(users_dict, "U1", "A"))
+
 # takes a list of tuples (userID : string, productId-list : list of strings)
 # returns a dictionary of groups with the key as the concatenated productId
 # and the value as a set of productsId's which are common to that group
@@ -34,3 +34,4 @@ group_users(users)
 # # return a sorted list of products in productId_list that user has reviewed
 # def get_review(users_dict, user, productId_list):
 #    return sorted([review for review in users_dict[user] if review["productID"] in productId_list])
+# print(get_review(users_dict, "U1", "A"))
