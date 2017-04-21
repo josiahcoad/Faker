@@ -1,6 +1,7 @@
 from __future__ import print_function
 from collections import defaultdict
 from cosine_sim import cosine_sim
+from numpy import mean as avg
 with open("./library/groups.txt") as f:
    groups = eval(f.read())
 
@@ -31,15 +32,25 @@ def prod_TW(timestamps):
 
 def GCS(group):
    products_reviews = translate_group(group)
-   cosine_sims = []
+   cs = []
    for product_reviews in products_reviews:
       reviews = [review["reviewText"] for review in product_reviews[1]]
-      cosine_sims.append(CS)
+      cs.append(CS(reviews))
+   return max(cs)
+
+def CS(reviews):
+   cs = []
+   for review in reviews:
+      for review2 in reviews:
+         cs.append(cosine_sim(review, review2))
+   return avg(cs)
+
+for groupId, group in groups.items():
+   print(GCS(group))
 
 
+# print sz of groups
 sz = defaultdict(int)
 for groupId, group in groups.items():
    sz[len(group)] += 1
-
 print(sz)
-   # print(GTW(group))
