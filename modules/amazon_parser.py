@@ -59,11 +59,11 @@ def get_reviewers(reviews):
 # filter out reviewers who did reviewed less than three products which have been rated 1 or 5 star
 # according to the paper, fraud reviewers will review at least three products to get their money's worth
 def remove_lessthan3(reviewers_reviews):
-   final = []
-   for reviewer, reviews in reviewers_reviews:
+   final = {}
+   for reviewer, reviews in reviewers_reviews.items():
       reviews = list(filter(lambda review: review["Rate"] == 1 or review["Rate"] == 5, reviews))
       if len(reviews) >= 3:
-            final.append( (reviewer, reviews) )
+            final[reviewer] = sorted(reviews, key=lambda review: review["productId"])
    print("Number of reviewers with 3+ reviews rated 1 or 5 star:", len(final))
    return final
 
