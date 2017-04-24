@@ -34,6 +34,12 @@ def prod_TW(timestamps):
    _range = max(timestamps)-min(timestamps)
    return 1-_range/MAXTIME if _range < MAXTIME else 0
 
+def CS(reviews):
+    cs = []
+    for review in reviews:
+        for review2 in reviews:
+            cs.append(cosine_sim(review, review2))
+    return avg(cs)
 def GCS(group):
    products_reviews = translate_group(group)
    cs = []
@@ -42,34 +48,45 @@ def GCS(group):
       cs.append(CS(reviews))
    return max(cs)
 
+reviews = parserJSON('./library/amazon-review-data.json')
+product_dict = get_products(reviews)
+def get_avg(Name):
+    if(len(product_dict[Name])>0):
+        count = 0
+        sum = 0
+        for i in range(len(product_dict[Name])):
+            sum+= product_dict[Name][i]["Rate"]
+            count+=1
+    #    print ("Overall average:",float(sum),float(count))
+    #    print (float(sum/count))
+        return float(sum/count)
+    else:
+        return 0
 
 def GD(group):
-    reviews = parserJSON('./library/amazon-review-data.json')
-    product_dict = get_products(reviews)
-    
-
-
-def CS(reviews):
-   cs = []
-   for review in reviews:
-      for review2 in reviews:
-         cs.append(cosine_sim(review, review2))
-   return avg(cs)
-
-
+    Deviation = []
+    handle = set()
+    for i in range(len(group)):
+        cur_user = group[i]
+        print("People:",cur_user[0])
+        for item in cur_user[1]:
+            if(item["productId"] not in handle):
+                handle.add(item["productId"])
+                if(item["Rate"]==5):
+                    Deviation.append(abs(5-get_avg(item["productId"]))/4)
+                elif(cur_user[1][1]["Rate"]==1):
+                    Deviation.append(abs(get_avg(item["productId"])-1)/4)
+    return max(Deviation)
 
 Final_Input = []
 
 
 
-i = 0
-for groupId, group in groups.items():
-    if i < 5:
-        print (GTW(group))
-        i+=1
+print ( "GD of first group:",GD(groups.items()[0][1]))
 
-print (len(groups.items()[1][1]))
-print(groups.items()[1][1])
+
+#print (len(groups.items()[1][1]))
+#print(groups.items()[1][1])
 
 #for groupId, groupU in groups.items():
 #   print (groupId, groupU,'\n')
