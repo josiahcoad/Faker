@@ -4,8 +4,8 @@ from cosine_sim import cosine_sim
 from numpy import mean as avg
 from modules.amazon_parser import *
 
-reviews = parserJSON('./library/amazon-review-data.json')
-products_dict = get_products(reviews)
+review_objects = parserJSON('./library/amazon-review-data.json')
+products_dict = get_products(review_objects)
 
 with open("./library/groups.txt") as f:
    groups = eval(f.read())
@@ -24,55 +24,41 @@ def organize_by_product(groups_dict):
       group_list.append( products_reviews.items() )
    return group_list
 
-GTW_MAXTIME = 345600 # number of seconds in 4 days
-def GTW(group):
-   timewindows = []
-   for product, reviews in group:
-      timestamps = [float(review["Date"]) for review in reviews]
-      timewindows.append(prod_TW(timestamps))
-   return max(timewindows)
 
-def prod_TW(timestamps):
+def GTW(group):
+   return max([prod_TW(reviews) for product, reviews in group])
+
+def prod_TW(reviews):
+   GTW_MAXTIME = 345600 # number of seconds in 4 days
+   timestamps = [float(review["Date"]) for review in reviews]
    _range = max(timestamps)-min(timestamps)
    return 1-_range/GTW_MAXTIME if _range < GTW_MAXTIME else 0
 
 def GCS(group):
-   cs = []
-   for product, reviews in group:
-      reviews = [review["reviewText"] for review in reviews]
-      cs.append(CS(reviews))
-   return max(cs)
+   return max([CS(reviews) for product, reviews in group])
 
 def CS(reviews):
-   cs = []
-   for review in reviews:
-      for review2 in reviews:
-         cs.append(cosine_sim(review, review2))
-   return avg(cs)
-
-# def GETF(group):
-#    products_reviews = translate_group(group)
-#    gtf = []
-#    for product, reviews in products_reviews:
-#       timestamps = [float(review["Date"]) for review in reviews]
-#       earliest_time_for_product = min([float(review["Date"]) for review in products_dict[product]])
-#       gtf.append(GTF(timestamps, earliest_time))
-#    return max(gtf)
+   texts = [review["reviewText"] for review in reviews]
+   return avg([cosine_sim(review1, review2) for review1 in texts for review2 in texts])
 
 def GETF(group):
    return max([GTF(product, reviews) for product, reviews in group])
 
-GTF_MAXTIME = 15552000 # seconds in 6 months
 def GTF(product, reviews):
+   GTF_MAXTIME = 15552000 # seconds in 6 months
    earliest_product_review = min([float(review["Date"]) for review in products_dict[product]])
    latest_group_review = max([float(review["Date"]) for review in reviews])
    _range = latest_group_review-earliest_product_review
    return 1-_range/GTF_MAXTIME if _range < GTF_MAXTIME else 0
    
 groups = organize_by_product(groups)
+groups_score = []
 for group in groups:
-   print(GETF(group))
-
+   groups_score.append( ( group , GCS(group)+GTW(group)+GETF(group) ) )
+groups_score.sort(key=lambda k: k[1])
+print(groups_score[0][1])
+with open("fake_team.txt", "w") as f:
+   f.write(repr(groups_score[0]))
 
 
 # print sz of groups
