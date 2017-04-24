@@ -7,6 +7,7 @@ from modules.amazon_parser import *
 with open("./library/groups.txt") as f:
    groups = eval(f.read())
 
+Final_Input = []
 # takes a group which is organized by reviewer_reviews and translates it to product_reviews
 def translate_group(group):
    reviews = []
@@ -78,9 +79,13 @@ def GD(group):
                     Deviation.append(abs(get_avg(item["productId"])-1)/4)
     return max(Deviation)
 
-Final_Input = []
+def GMCS(group):
+    
 
+def GS(group):
+    return len(group)
 
+def
 
 print ( "GD of first group:",GD(groups.items()[0][1]))
 
