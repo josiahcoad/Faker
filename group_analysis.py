@@ -51,11 +51,12 @@ def GTF(product, reviews):
    _range = latest_group_review-earliest_product_review
    return 1-_range/GTF_MAXTIME if _range < GTF_MAXTIME else 0
    
+def score(group):
+   return GCS(group)+GTW(group)+GETF(group)
+
 groups = organize_by_product(groups)
-groups_score = []
-for group in groups:
-   groups_score.append( ( group , GCS(group)+GTW(group)+GETF(group) ) )
-groups_score.sort(key=lambda k: k[1])
+groups_score = sorted( [ ( group, score(group) ) for group in groups], key=lambda x: x[1], reverse=True)
+
 print(groups_score[0][1])
 with open("fake_team.txt", "w") as f:
    f.write(repr(groups_score[0]))
