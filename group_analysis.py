@@ -64,6 +64,7 @@ def get_avg(Name):
     else:
         return 0
 
+# Group Deviation (GD)
 def GD(group):
     Deviation = []
     handle = set()
@@ -79,6 +80,7 @@ def GD(group):
                     Deviation.append(abs(get_avg(item["productId"])-1)/4)
     return max(Deviation)
 
+# Group Member Content Similarity
 def GMCS(group):
 	MCS = []
 	count = []
@@ -98,10 +100,11 @@ def GMCS(group):
 		Sum+=indi
 	return float(Sum)/len(group)
 
-
+# Group Size (GS)
 def GS(group):
     return len(group)
 
+# Group Size Ratio (GSR)
 def GSR(group):
     handle = set()
     for i in range(len(group)):
