@@ -80,14 +80,30 @@ def GD(group):
     return max(Deviation)
 
 def GMCS(group):
-    
+	MCS = []
+	count = []
+	for i in range(len(group)):
+		print ("Initial :",i,"~~",len(group))
+		cur_user = group[i]
+		MCS.append(0)
+		count.append(0)
+		for x in range(len(cur_user[1])-1):#each review
+			for y in range(x+1,len(cur_user[1])):
+				MCS[i]+=cosine_sim(cur_user[1][x]["reviewText"], cur_user[1][y]["reviewText"])		
+				count[i]+=1	
+		MCS[i]/=count[i]
+		print ("MCS:",i,":",MCS[i])
+	Sum = 0
+	for indi in MCS:
+		Sum+=indi
+	return float(Sum)/len(group)
+
 
 def GS(group):
     return len(group)
 
-def
 
-print ( "GD of first group:",GD(groups.items()[0][1]))
+print ( "GMCS of first group:",GMCS(groups.items()[0][1]))
 
 
 #print (len(groups.items()[1][1]))
