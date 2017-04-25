@@ -100,7 +100,17 @@ def GMCS(group):
 		Sum+=indi
 	return float(Sum)/len(group)
 
+<<<<<<< HEAD
 # Group Size (GS)
+=======
+MaxUser = 0
+for groupId, groupU in groups.items():
+    if len(groupU) > MaxUser:
+        MaxUser =len(groupU)
+print ("MaxUser: ", MaxUser)
+
+
+>>>>>>> 63bf8cb88ee7294eb0fe7d76d9c1e8faa66fd2eb
 def GS(group):
     return len(group)
 
@@ -117,10 +127,10 @@ def GSR(group):
         GSR+=len(group)/len(product_dict[product])
     return float(GSR)/len(handle)
 
-print ( "GMCS of first group:",GSR(groups.items()[0][1]))
+print ( "GMCS of first group:",GMCS(groups.items()[0][1]))
 
 
-#print (len(groups.items()[1][1]))
+print ("GSR of first group:",GSR(groups.items()[0][1]))
 #print(groups.items()[1][1])
 
 #for groupId, groupU in groups.items():
