@@ -80,6 +80,7 @@ def get_products(reviews):
    return products
 
 
+
 # - ADD COMMON-USED FUNCTION HERE
 
 def normalizedVector(vector):
