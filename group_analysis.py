@@ -102,8 +102,19 @@ def GMCS(group):
 def GS(group):
     return len(group)
 
+def GSR(group):
+    handle = set()
+    for i in range(len(group)):
+        cur_user = group[i]
+        for item in cur_user[1]:
+            if(item["productId"] not in handle):
+                handle.add(item["productId"])
+    GSR = 0
+    for product in handle:
+        GSR+=len(group)/len(product_dict[product])
+    return float(GSR)/len(handle)
 
-print ( "GMCS of first group:",GMCS(groups.items()[0][1]))
+print ( "GMCS of first group:",GSR(groups.items()[0][1]))
 
 
 #print (len(groups.items()[1][1]))
