@@ -83,22 +83,15 @@ def GMCS(group):
   return float(Sum)/len(group)
 
 # Group Size (GS) (number of users in group)
-def GS(group):
-    return float(len(group)) / MAX_USERS
+def GS(group_by_users):
+    return float(len(group_by_users)) / MAX_USERS
 
-# Group Size Ratio (GSR) (number of users in group)
-def GSR(group):
-    handle = set()
-    for i in range(len(group)):
-        cur_user = group[i]
-        for item in cur_user[1]:
-            if(item["productId"] not in handle):
-                handle.add(item["productId"])
-    GSR = 0
-    for product in handle:
-        GSR+=len(group)/len(products_dict[product])
-    return float(GSR)/len(handle)
+# Group Size Ratio (GSR) (returns 1 if each product in the group were only reviewed by the group members)
+def GSR(group_by_products):
+  return avg ( [gsr(product, reviews) for product, reviews in group_by_products] )
 
+def gsr(product, reviews):
+  return float(len(reviews)) / len(products_dict[product])
 # ------------------------
 
 def GTW(group):
@@ -133,7 +126,7 @@ def GSUP(group):
 
 # Sum Scores
 def scores(gbp, gbr):
-   return [GCS(gbp), GTW(gbp), GETF(gbp), GSUP(gbp), GS(gbr), GSR(gbr), GD(gbr), GMCS(gbr)]
+   return [GCS(gbp), GTW(gbp), GETF(gbp), GSUP(gbp), GS(gbr), GSR(gbp), GD(gbr), GMCS(gbr)]
 
 
 def get_all_scores():
@@ -151,6 +144,9 @@ def get_all_scores():
 
 # print sz of groups
 # sz = defaultdict(int)
+# for groupId, group in groups.items():
+#    sz[len(group)] += 1
+# print(sz)t)
 # for groupId, group in groups.items():
 #    sz[len(group)] += 1
 # print(sz)
