@@ -3,7 +3,6 @@ from collections import defaultdict
 from cosine_sim import cosine_sim
 from numpy import mean as avg
 from modules.amazon_parser import *
-
 review_objects = parserJSON('./library/amazon-review-data.json')
 
 products_dict  = get_products(review_objects) # create a dict with product ID as the key and a list of the product's reviews as the value
@@ -53,20 +52,11 @@ def get_avg(Name):
     else:
         return 0
 
-# Group Deviation (GD)
-def GD(group):
-    Deviation = []
-    handle = set()
-    for i in range(len(group)):
-        cur_user = group[i]
-        for item in cur_user[1]:
-            if(item["productId"] not in handle):
-                handle.add(item["productId"])
-                if(item["Rate"]==5):
-                    Deviation.append(abs(5-get_avg(item["productId"]))/4)
-                elif(cur_user[1][1]["Rate"]==1):
-                    Deviation.append(abs(get_avg(item["productId"])-1)/4)
-    return max(Deviation)
+def GD(group_by_products):
+  return avg([D(reviews[0]["Rate"]) for product, reviews in group_by_products])
+
+def D(group_product_rating):
+  return max(abs())/4
 
 # Group Member Content Similarity
 def GMCS(group):
@@ -139,13 +129,13 @@ def get_all_scores():
      all_scores.append(scores(groups_by_products[i], groups_by_reviewers[i]))
   return all_scores
 
-scores = [( i, sum(score) ) for i, score in enumerate(get_all_scores())]
-fakest_indexes = sorted(scores, lambda k: k[1], reverse=True)
-for top in fakest_indexes[:5]:
-  fakest_users = [reviewer for reviewer, review in groups_by_reviewers[fakest_index]]
-  print(fakest_users)
-# with open("scores.txt", "w") as scores:
-#   scores.write(repr(get_all_scores()))
+# scores = [( i, sum(score) ) for i, score in enumerate(get_all_scores())]
+# fakest_indexes = sorted(scores, lambda k: k[1], reverse=True)
+# for top in fakest_indexes[:5]:
+#   fakest_users = [reviewer for reviewer, review in groups_by_reviewers[fakest_index]]
+#   print(fakest_users)
+with open("scores.txt", "w") as file:
+  file.write(repr(get_all_scores()))
 
 # for s in all_scores:
 #   print("GCS: %.5f, GTW: %.5f, GETF: %.5f, GSUP: %.5f, GS: %.5f, GSR: %.5f, GD: %.5f, GMCS %.5f"%(s))
