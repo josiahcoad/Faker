@@ -1,5 +1,30 @@
 '''
 Maximum number of reviews
+<<<<<<< HEAD
+It was observed that about 75 % of spammers write more than 3 reviews on any given day. Therefore, 
+taking into account the number of reviews a user writes per day can help detect spammers since 90 % 
+of legitimate reviewers never create more than one review on any given day.
+
+Percentage of positive reviews
+Approximately 85 % of spammers wrote more than 80 % of their reviews as positive reviews, 
+thus a high percentage of positive reviews might be an indication of an untrustworthy reviewer.
+
+Review length
+The average review length may be an important indication of reviewers with questionable intentions 
+since about 80 % of spammers have no reviews longer than 135 words while more than 92 % of reliable reviewers 
+have an average review length of greater than 200 words.
+
+Reviewer deviation
+It was observed that spammers ratings tend to deviate from the average review rating at a far 
+higher rate than legitimate reviewers, thus identifying user rating deviations may help in detection 
+of dishonest reviewers.
+
+Maximum content similarity
+The presence of similar reviews for different products by the same reviewer has been 
+shown to be a strong indication of a spammer. Mukherjee et al. [23] used cosine similarity; 
+however, other more advanced similarity functions based upon word meanings versus the words themselves 
+have shown promise 
+=======
 It was observed that about 75 % of spammers write more than 3 reviews on any given day. Therefore, taking into account the number of reviews a user writes per day can help detect spammers since 90 % of legitimate reviewers never create more than one review on any given day.
 
 Percentage of positive reviews
@@ -13,6 +38,7 @@ It was observed that spammers ratings tend to deviate from the average review ra
 
 Maximum content similarity
 The presence of similar reviews for different products by the same reviewer has been shown to be a strong indication of a spammer. Mukherjee et al. [23] used cosine similarity; however, other more advanced similarity functions based upon word meanings versus the words themselves have shown promise 
+>>>>>>> 6ffe0967ec022a4bf2e28fb064fb96990f1e17c0
 '''
 
 
@@ -30,8 +56,13 @@ def parserJSON(path, numLines=None):
     return reviews
 
 def cosine_sim(s1, s2):
+<<<<<<< HEAD
+    dict1 = defaultdict(int)
+    dict2 = defaultdict(int)
+=======
     dict1 = defaultdict(lambda: int)
     dict2 = defaultdict(lambda: int)
+>>>>>>> 6ffe0967ec022a4bf2e28fb064fb96990f1e17c0
 
     for word in re.split('\W+', s1):
         word = ps.stem(word)
