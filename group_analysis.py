@@ -8,9 +8,6 @@ review_objects = parserJSON('./library/amazon-review-data.json')
 products_dict  = get_products(review_objects) # create a dict with product ID as the key and a list of the product's reviews as the value
 
 
-products_dict = get_products(review_objects) # create a dict with product ID as the key and a list of the product's reviews as the value
-
-
 MAX_USERS = 5 # found previously
 MAX_PRODS = 7 # found previously
 
@@ -41,40 +38,20 @@ def organize_by_user(groups_dict):
 
 groups_by_reviewers = organize_by_user(groups)
 
-def get_avg(Name):
-    if(len(products_dict[Name])>0):
-        count = 0
-        sum = 0
-        for i in range(len(products_dict[Name])):
-            sum+= products_dict[Name][i]["Rate"]
-            count+=1
-        return float(sum/count)
-    else:
-        return 0
-
 def GD(group_by_products):
-  return avg([D(reviews[0]["Rate"]) for product, reviews in group_by_products])
+  return avg([D(product, reviews) for product, reviews in group_by_products])
 
-def D(group_product_rating):
-  return max(abs())/4
+def D(product, reviews):
+  groups_product_rating = reviews[0]["Rate"]
+  return max(abs(groups_product_rating-products_dict[product]["Rate"])) / 4
 
-# Group Member Content Similarity
-def GMCS(group):
-  MCS = []
-  count = []
-  for i in range(len(group)):
-    cur_user = group[i]
-    MCS.append(0)
-    count.append(0)
-    for x in range(len(cur_user[1])-1):#each review
-      for y in range(x+1,len(cur_user[1])):
-        MCS[i]+=cosine_sim(cur_user[1][x]["reviewText"], cur_user[1][y]["reviewText"])    
-        count[i]+=1 
-    MCS[i]/=count[i]
-  Sum = 0
-  for indi in MCS:
-    Sum+=indi
-  return float(Sum)/len(group)
+# Group Member Content Similarity (GMCS)
+def GMCS(groups_by_reviewers):
+  return sum([MS(reviews) for reviewer, reviews in groups_by_reviewers]) / len(groups_by_reviewers)
+
+def MS(reviews)
+  texts = [review["reviewText"] for review in reviews]
+  return avg([cosine_sim(review1, review2) for review1 in texts for review2 in texts])
 
 # Group Size (GS) (number of users in group)
 def GS(group_by_users):
@@ -120,7 +97,7 @@ def GSUP(group):
 
 # Sum Scores
 def scores(gbp, gbr):
-   return [GCS(gbp), GTW(gbp), GETF(gbp), GSUP(gbp), GS(gbr), GSR(gbp), GD(gbr), GMCS(gbr)]
+   return [GCS(gbp), GTW(gbp), GETF(gbp), GSUP(gbp), GS(gbr), GSR(gbp), GD(gbp), GMCS(gbr)]
 
 
 def get_all_scores():

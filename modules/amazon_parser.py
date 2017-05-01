@@ -93,6 +93,27 @@ def normalizedVector(vector):
     return vector
 
 
+# takes a dictionary of groups which are organized by groupID as the key and a list of tuples as the value
+# return a list of groups where each group is structured as: [(product, [reviews]), (product, [reviews])]
+def organize_by_product(groups_dict):
+   group_list = []
+   for groupId, group in groups_dict.items():
+      reviews = []
+      for user, user_reviews in group:
+         reviews.extend(user_reviews)
+      products_reviews = defaultdict(list)
+      for review in reviews:
+         products_reviews[review["productId"]].append(review)
+      group_list.append( products_reviews.items() )
+   return group_list
+
+
+# takes a dictionary of groups which are organized by groupID as the key and a list of tuples as the value
+# return a list of groups where each group is structured as: [(reviewer, [reviews]), (reviewer, [reviews])]
+def organize_by_user(groups_dict):
+   return [groups_dict[key] for key in groups_dict]
+
+
 
 '''Old Code'''
 #reviewers = get_reviewers(reviews)
