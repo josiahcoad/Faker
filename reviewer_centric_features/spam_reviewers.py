@@ -84,6 +84,7 @@ def pos_reviews(reviews):
             if sentiment_reviews[key1][key2] > 3:
                 count_pos += 1
         positive_reviews[key1] = float(count_pos)/float(len(sentiment_reviews[key1].keys()))
+    return positive_reviews
 
 
 def review_length(reviews):
@@ -94,7 +95,7 @@ def review_length(reviews):
     for key1 in review_length_collection:
         for key2 in review_length_collection[key1]:
             avg_review_length_collection[key1] = float(sum(review_length_collection[key1].values()))/float(len(review_length_collection[key1].keys()))
-    print avg_review_length_collection
+    return avg_review_length_collection
 
 def reviewer_deviation(reviews):
     product_rating = defaultdict(lambda: defaultdict(float))
@@ -118,12 +119,51 @@ def reviewer_deviation(reviews):
         for key2 in deviation_member_rating[key1]:
             avg_deviation_member_rating[key1] = float(sum(deviation_member_rating[key1].values()))/float(len(deviation_member_rating[key1].keys()))
 
-    for key in avg_deviation_member_rating:
-        if avg_deviation_member_rating[key] > 1.0:
-            print key
+    # for key in avg_deviation_member_rating:
+    #     if avg_deviation_member_rating[key] > 1.0:
+            # print key
+
+    return avg_deviation_member_rating
 
 def content_similarity(reviews):
     pass
+
+
+def construct_feature_vector():
+    avg_reviews_per_day = maximum_reviews(reviews)
+    positive_reviews = pos_reviews(reviews)
+    avg_review_length_collection = review_length(reviews)
+    avg_deviation_member_rating = reviewer_deviation(reviews)
+
+    training_data = {} 
+
+    for key in avg_reviews_per_day:
+        if key not in training_data:
+            training_data[key] = []
+        if avg_reviews_per_day[key] > 3:
+            training_data[key].append(5 * avg_reviews_per_day[key])
+        else:
+            training_data[key].append(0.5 * avg_reviews_per_day[key])
+
+    for key in positive_reviews:
+        if positive_reviews[key] > 0.8:
+            training_data[key].append(3 * positive_reviews[key])
+        else:
+            training_data[key].append(0.2 * positive_reviews[key])
+
+    for key in avg_review_length_collection:
+        if avg_review_length_collection[key] < 135.0:
+            training_data[key].append( 3 * (avg_review_length_collection[key] - 135.0 ))
+        else:
+            training_data[key].append( (avg_review_length_collection[key] - 135.0))
+
+    for key in avg_deviation_member_rating:
+        if avg_deviation_member_rating[key] > 1.0:
+            training_data[key].append(10 * avg_deviation_member_rating[key] )
+        else:
+            training_data[key].append( avg_deviation_member_rating[key]  )
+
+    return training_data
 
 
 # reviewer_deviation(reviews)
