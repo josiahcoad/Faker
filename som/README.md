@@ -1,0 +1,1 @@
+This contains the files related to implementations of self organizing maps which is an unsupervised machine learning algorithm in Python. In our case, we would like to use it for visualizing data in higher dimentions to lower dimensions also we want to find out the geometric distance for input and clustered them. 
