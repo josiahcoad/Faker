@@ -5,13 +5,13 @@ from numpy import mean as avg
 from modules.amazon_parser import *
 
 review_objects = parserJSON('./library/amazon-review-data.json')
-<<<<<<< HEAD
+
 products_dict  = get_products(review_objects) # create a dict with product ID as the key and a list of the product's reviews as the value
-print("len products_dict", len(products_dict))
-=======
+
+
 products_dict = get_products(review_objects) # create a dict with product ID as the key and a list of the product's reviews as the value
 
->>>>>>> chia
+
 MAX_USERS = 5 # found previously
 MAX_PRODS = 7 # found previously
 
@@ -35,21 +35,12 @@ def organize_by_product(groups_dict):
 
 groups_by_products = organize_by_product(groups)
 
-<<<<<<< HEAD
-print("len groups_by_products", len(groups_by_products))
-=======
->>>>>>> chia
 # takes a dictionary of groups which are organized by groupID as the key and a list of tuples as the value
 # return a list of groups where each group is structured as: [(reviewer, [reviews]), (reviewer, [reviews])]
 def organize_by_user(groups_dict):
    return [groups_dict[key] for key in groups_dict]
 
 groups_by_reviewers = organize_by_user(groups)
-<<<<<<< HEAD
-print("len groups_by_reviewers", len(groups_by_reviewers))
-=======
-
->>>>>>> chia
 
 def get_avg(Name):
     if(len(products_dict[Name])>0):
@@ -148,10 +139,13 @@ def get_all_scores():
      all_scores.append(scores(groups_by_products[i], groups_by_reviewers[i]))
   return all_scores
 
-<<<<<<< HEAD
-# get_all_scores()
-=======
->>>>>>> chia
+scores = [( i, sum(score) ) for i, score in enumerate(get_all_scores())]
+fakest_indexes = sorted(scores, lambda k: k[1], reverse=True)
+for top in fakest_indexes[:5]:
+  fakest_users = [reviewer for reviewer, review in groups_by_reviewers[fakest_index]]
+  print(fakest_users)
+# with open("scores.txt", "w") as scores:
+#   scores.write(repr(get_all_scores()))
 
 # for s in all_scores:
 #   print("GCS: %.5f, GTW: %.5f, GETF: %.5f, GSUP: %.5f, GS: %.5f, GSR: %.5f, GD: %.5f, GMCS %.5f"%(s))
@@ -163,10 +157,3 @@ def get_all_scores():
 # sz = defaultdict(int)
 # for groupId, group in groups.items():
 #    sz[len(group)] += 1
-<<<<<<< HEAD
-# print(sz)t)
-# for groupId, group in groups.items():
-#    sz[len(group)] += 1
-=======
->>>>>>> chia
-# print(sz)
