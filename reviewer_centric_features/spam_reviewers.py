@@ -56,13 +56,8 @@ def parserJSON(path, numLines=None):
     return reviews
 
 def cosine_sim(s1, s2):
-<<<<<<< HEAD
     dict1 = defaultdict(int)
     dict2 = defaultdict(int)
-=======
-    dict1 = defaultdict(lambda: int)
-    dict2 = defaultdict(lambda: int)
->>>>>>> 6ffe0967ec022a4bf2e28fb064fb96990f1e17c0
 
     for word in re.split('\W+', s1):
         word = ps.stem(word)
