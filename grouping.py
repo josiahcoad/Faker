@@ -3,6 +3,7 @@ from modules.amazon_parser import *
 
 # get a list of dictionary items which represent each review object (including metadata like product id and user id) 
 reviews = parserJSON('./library/amazon-review-data.json')
+reviews = parserJSON('./library/amazon-review-data-modified.json')
 # get a dict with {user : sorted list (by productId) of their review objects, ...}
 user_dict = get_reviewers(reviews)
 # remove all reviewers who reviewed less than 3 products with ratings other than 1 or 5
