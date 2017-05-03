@@ -1,9 +1,9 @@
 from __future__ import print_function
 from SOM_Trianing import som
 import numpy as np
-from group_analysis_jo import get_all_scores
+from group_analysis import get_all_scores
 from modules.amazon_parser import *
-with open("./library/groups.txt") as f:
+with open("./library/groups_chia.txt") as f:
     groups = eval(f.read())
 
 

@@ -11,11 +11,11 @@ SIX_MONTHS = 15552000 # seconds in 6 months, used in GETF
 FOUR_DAYS = 345600 # number of seconds in 4 days
 
 
-review_objects = parserJSON('./library/amazon-review-data.json')
+review_objects = parserJSON('./library/amazon-review-data-modified.json')
 
 products_dict  = get_products(review_objects) # create a dict with product ID as the key and a list of the product's reviews as the value
 
-with open("./library/groups.txt") as f:
+with open("./library/groups_chia.txt") as f:
    groups = eval(f.read())
 
 groups_by_products = organize_by_product(groups)

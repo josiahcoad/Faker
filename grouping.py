@@ -2,7 +2,7 @@ from __future__ import print_function
 from modules.amazon_parser import *
 
 # get a list of dictionary items which represent each review object (including metadata like product id and user id) 
-reviews = parserJSON('./library/amazon-review-data.json')
+#reviews = parserJSON('./library/amazon-review-data.json')
 reviews = parserJSON('./library/amazon-review-data-modified.json')
 # get a dict with {user : sorted list (by productId) of their review objects, ...}
 user_dict = get_reviewers(reviews)
@@ -38,9 +38,10 @@ def group_users(users_dict):
                groups[key] = [ref_entry, comp_entry]
 
    return groups
-'''
+
 with open("./library/groups_chia.txt", "w") as f:
     f.write(repr(group_users(user_dict)))
+'''
 with open("./library/groups_prodct.txt", "w") as f:
     f.write(repr(get_products(user_dict)))
 '''
