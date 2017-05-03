@@ -3,6 +3,7 @@ from collections import defaultdict
 from cosine_sim import cosine_sim
 from numpy import mean as avg
 from modules.amazon_parser import *
+from collections import OrderedDict
 
 
 MAX_USERS_IN_GROUP = 5 # found previously
@@ -33,15 +34,13 @@ fakegroup = {'FAKEGROUP': [
 review_objects = parserJSON('./library/amazon-review-data-modified.json')
 
 products_dict  = get_products(review_objects) # create a dict with product ID as the key and a list of the product's reviews as the value
-#<<<<<<< HEAD
 
-with open("./library/groups_chia.txt") as f:
+
+with open("./library/groups_temp.txt") as f:
    groups = eval(f.read())
 
 '''
-=======
 groups = fakegroup
->>>>>>> 95dc508cc9e5783909baacb06f613aa553510e6d
 '''
 groups_by_products = organize_by_product(groups)
 groups_by_reviewers = organize_by_user(groups)
@@ -111,7 +110,8 @@ def scores(gbp, gbr):
 def get_all_scores():
   all_scores = []
   for i in range(len(groups_by_reviewers)):
-     all_scores.append(scores(groups_by_products[i], groups_by_reviewers[i]))
+     l = [i] + scores(groups_by_products[i], groups_by_reviewers[i])
+     all_scores.append(l)
   return all_scores
 
 print(get_all_scores())
