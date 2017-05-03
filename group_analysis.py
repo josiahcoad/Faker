@@ -33,14 +33,16 @@ fakegroup = {'FAKEGROUP': [
 review_objects = parserJSON('./library/amazon-review-data-modified.json')
 
 products_dict  = get_products(review_objects) # create a dict with product ID as the key and a list of the product's reviews as the value
-<<<<<<< HEAD
+#<<<<<<< HEAD
 
 with open("./library/groups_chia.txt") as f:
    groups = eval(f.read())
 
+'''
 =======
 groups = fakegroup
 >>>>>>> 95dc508cc9e5783909baacb06f613aa553510e6d
+'''
 groups_by_products = organize_by_product(groups)
 groups_by_reviewers = organize_by_user(groups)
 

@@ -48,8 +48,8 @@ class som:
                 #Squeezed the matrix into an ndarray.
                 somMap[num,iter,:] = numpy.squeeze(numpy.random.rand(inputvectorlen,1))
                     
-        print "Again #printing the som with randomly initialised weight vectors"
-        print somMap
+#        print "Again #printing the som with randomly initialised weight vectors"
+#        print somMap
 
         count = 1;
         while(count < maxIterations):
