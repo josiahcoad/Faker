@@ -1,30 +1,5 @@
 '''
 Maximum number of reviews
-<<<<<<< HEAD
-It was observed that about 75 % of spammers write more than 3 reviews on any given day. Therefore, 
-taking into account the number of reviews a user writes per day can help detect spammers since 90 % 
-of legitimate reviewers never create more than one review on any given day.
-
-Percentage of positive reviews
-Approximately 85 % of spammers wrote more than 80 % of their reviews as positive reviews, 
-thus a high percentage of positive reviews might be an indication of an untrustworthy reviewer.
-
-Review length
-The average review length may be an important indication of reviewers with questionable intentions 
-since about 80 % of spammers have no reviews longer than 135 words while more than 92 % of reliable reviewers 
-have an average review length of greater than 200 words.
-
-Reviewer deviation
-It was observed that spammers ratings tend to deviate from the average review rating at a far 
-higher rate than legitimate reviewers, thus identifying user rating deviations may help in detection 
-of dishonest reviewers.
-
-Maximum content similarity
-The presence of similar reviews for different products by the same reviewer has been 
-shown to be a strong indication of a spammer. Mukherjee et al. [23] used cosine similarity; 
-however, other more advanced similarity functions based upon word meanings versus the words themselves 
-have shown promise 
-=======
 It was observed that about 75 % of spammers write more than 3 reviews on any given day. Therefore, taking into account the number of reviews a user writes per day can help detect spammers since 90 % of legitimate reviewers never create more than one review on any given day.
 
 Percentage of positive reviews
@@ -38,7 +13,6 @@ It was observed that spammers ratings tend to deviate from the average review ra
 
 Maximum content similarity
 The presence of similar reviews for different products by the same reviewer has been shown to be a strong indication of a spammer. Mukherjee et al. [23] used cosine similarity; however, other more advanced similarity functions based upon word meanings versus the words themselves have shown promise 
->>>>>>> 6ffe0967ec022a4bf2e28fb064fb96990f1e17c0
 '''
 
 
@@ -145,10 +119,6 @@ def reviewer_deviation(reviews):
         for key2 in deviation_member_rating[key1]:
             avg_deviation_member_rating[key1] = float(sum(deviation_member_rating[key1].values()))/float(len(deviation_member_rating[key1].keys()))
 
-    # for key in avg_deviation_member_rating:
-    #     if avg_deviation_member_rating[key] > 1.0:
-            # print key
-
     return avg_deviation_member_rating
 
 def content_similarity(reviews):
@@ -162,14 +132,17 @@ def construct_feature_vector():
     avg_deviation_member_rating = reviewer_deviation(reviews)
 
     training_data = {} 
-
+    count = 0
+    mapping_training_id_user_id = {}
     for key in avg_reviews_per_day:
         if key not in training_data:
-            training_data[key] = []
+            training_data[key] = [count]
+            mapping_training_id_user_id[count] = key
+            count += 1
         if avg_reviews_per_day[key] > 3:
-            training_data[key].append(5 * avg_reviews_per_day[key])
+            training_data[key].append(100 * avg_reviews_per_day[key])
         else:
-            training_data[key].append(0.5 * avg_reviews_per_day[key])
+            training_data[key].append(0.1 * avg_reviews_per_day[key])
 
     for key in positive_reviews:
         if positive_reviews[key] > 0.8:
@@ -178,30 +151,15 @@ def construct_feature_vector():
             training_data[key].append(0.2 * positive_reviews[key])
 
     for key in avg_review_length_collection:
-        if avg_review_length_collection[key] < 135.0:
-            training_data[key].append( 3 * (avg_review_length_collection[key] - 135.0 ))
-        else:
-            training_data[key].append( (avg_review_length_collection[key] - 135.0))
+        training_data[key].append( (avg_review_length_collection[key] - 135.0 ))
 
     for key in avg_deviation_member_rating:
-        if avg_deviation_member_rating[key] > 1.0:
-            training_data[key].append(10 * avg_deviation_member_rating[key] )
+        if abs(avg_deviation_member_rating[key]) > 1.0:
+            training_data[key].append(5 * avg_deviation_member_rating[key] )
         else:
             training_data[key].append( avg_deviation_member_rating[key]  )
 
-    return training_data
+    return training_data, mapping_training_id_user_id
 
-
-# reviewer_deviation(reviews)
-    
-
-    
-
-
-# pos_reviews(reviews)
-
-# maximum_reviews(reviews)
-
-# review_length(reviews)
 
 

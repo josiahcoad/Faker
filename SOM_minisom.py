@@ -2,11 +2,7 @@ from __future__ import print_function
 #from SOM_Trianing import som
 import numpy as np
 from group_analysis import *
-<<<<<<< HEAD
-# from group_analysis_jo import get_reviewer_groups
-=======
-#from group_analysis_jo import get_reviewer_groups
->>>>>>> 0793a0eda752bd2d6fe4a0708c0610db55916196
+
 from grouping import group_users
 from modules.amazon_parser import *
 with open("./library/groups_temp.txt") as f:
@@ -21,11 +17,7 @@ from minisom import MiniSom
 som = MiniSom(x = 10, y = 10, input_len = 9, sigma = 1.0, learning_rate = 0.5)
 som.random_weights_init(X)
 som.train_random(data = X, num_iteration = 10)
-<<<<<<< HEAD
-=======
 
-print("reached before som_distance")
->>>>>>> 0793a0eda752bd2d6fe4a0708c0610db55916196
 
 som_distance = som.distance_map().T
 #print('som map', som_distance)
