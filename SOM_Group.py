@@ -14,6 +14,8 @@ som = som(final_input,12,4,somCol,somRow)
 ans =som.trainmodel()
 print ('trained model is',ans)
 
+
+
 #plot mayby distribution
 #recalculate super group's indecators
 
