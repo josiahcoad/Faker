@@ -1,31 +1,35 @@
 from __future__ import print_function
 #from SOM_Trianing import som
 import numpy as np
-from group_analysis_jo import get_all_scores
-from group_analysis_jo import get_reviewer_groups
-from grouping2 import group_users
+from group_analysis import *
+#from group_analysis_jo import get_reviewer_groups
+from grouping import group_users
 from modules.amazon_parser import *
 with open("./library/groups.txt") as f:
     groups = eval(f.read())
 
+print("reached before X")
 X = np.array(get_all_scores())
 
 # Training the SOM
 # We will use MiniSom 1.0
 from minisom import MiniSom
-som = MiniSom(x = 10, y = 10, input_len = 9, sigma = 1.0, learning_rate = 0.01)
+som = MiniSom(x = 10, y = 10, input_len = 9, sigma = 1.0, learning_rate = 0.5)
 som.random_weights_init(X)
-som.train_random(data = X, num_iteration = 10000)
+som.train_random(data = X, num_iteration = 10)
+
+print("reached before som_distance")
 
 som_distance = som.distance_map().T
 #print('som map', som_distance)
 
+print("reached before mappings")
 # Detecting the fake groups and reviewers
 mappings = som.win_map(X)
 print('size of the SOM map', len(mappings))
-#text_file = open("mappings.txt", "w")
-#text_file.write("winning map is %s" % mappings)
-#text_file.close()
+text_file = open("mappings.txt", "w")
+text_file.write("winning map is %s" % mappings)
+text_file.close()
 
 # List of fake review group IDs
 faker_list = []
