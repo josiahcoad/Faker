@@ -1,5 +1,7 @@
 from __future__ import print_function
 from modules.amazon_parser import *
+import collections
+
 
 # get a list of dictionary items which represent each review object (including metadata like product id and user id) 
 #reviews = parserJSON('./library/amazon-review-data.json')
@@ -21,6 +23,7 @@ def group_users(users_dict):
    # create a list of tuples of... (reviewer, list of the product ids reviewed)
    users = [(memberId, [(review["productId"], review["Rate"]) for review in reviews]) for memberId, reviews in users_dict.items()]# equal to the function of nested loop
    groups = {}
+   count = 0
    for i in range(len(users)-1):
       ref_user = users[i]
       for j in range(i+1,len(users)):
@@ -28,7 +31,7 @@ def group_users(users_dict):
          common_products = set(ref_user[1]).intersection(set(comp_user[1]))#cmp current and it's next till end
          common_products = sorted([review[0] for review in common_products])#sort by
          if len(common_products) >= 3:
-            key = "-".join(common_products)##intersection
+            key = count##intersection
             comp_entry = get_entry(comp_user[0], common_products)
             if key in groups:
                if comp_user[0] not in [entry[0] for entry in groups[key]]: # make sure user's not already in group
@@ -36,11 +39,14 @@ def group_users(users_dict):
             else:
                ref_entry  = get_entry(ref_user[0] , common_products)
                groups[key] = [ref_entry, comp_entry]
+            count += 1
 
    return groups
 
-with open("./library/groups_chia.txt", "w") as f:
-    f.write(repr(group_users(user_dict)))
+with open("./library/groups_temp.txt", "w") as f:
+   final_user_dict = collections.OrderedDict(sorted(group_users(user_dict).items()))
+
+   f.write(repr(final_user_dict))
 '''
 with open("./library/groups_prodct.txt", "w") as f:
     f.write(repr(get_products(user_dict)))
