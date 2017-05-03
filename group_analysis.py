@@ -114,7 +114,7 @@ def get_all_scores():
      all_scores.append(l)
   return all_scores
 
-# print(get_all_scores())
+
 # scores = [( i, sum(score) ) for i, score in enumerate(get_all_scores())]
 # fakest_indexes = sorted(scores, lambda k: k[1], reverse=True)
 # for top in fakest_indexes[:5]:
