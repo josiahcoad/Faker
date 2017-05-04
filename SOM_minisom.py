@@ -32,6 +32,27 @@ text_file.close()
 
 # List of fake review group IDs
 faker_list = []
+list_score = [] 
+counter = 0
+for i in mappings.items():
+	list_score[counter]=[]
+	for elem in mappings[i]:
+		tmp = get_all_scores_final(elem)
+		if not list_score[counter]:
+			list_score[counter] = tmp
+		else:
+			for j in range(len(tmp)):	
+				list_score[counter][j]+=tmp[j]
+	counter+=1
+
+sortt = []
+for i in range(len(list_score)):
+	sortt.append(sum(list_score[i])/len(list_score[i]))
+
+for i in range(3):
+	print ("First ",i,"th fake group: ",len(sortt.sort()[i]))
+	 
+
 for i in xrange(len(som_distance)):
 	for j in xrange(len(som_distance[0])):
 		if som_distance[i][j] > 0.8:

@@ -106,6 +106,8 @@ def GSUP(group):
 def scores(gbp, gbr):
    return [GCS(gbp), GTW(gbp), GETF(gbp), GSUP(gbp), GS(gbr), GSR(gbp), GD(gbp), GMCS(gbr)]
 
+def get_all_scores_final(index):
+	return scores(groups_by_products[index], groups_by_reviewers[index])
 
 def get_all_scores():
   all_scores = []
