@@ -21,11 +21,12 @@ keys of reviews
 
 
 ####IRD####
-def IRD():
+def IRD(reviews):
 
     productRatingDictionary = defaultdict(lambda: {"review_counts": 0, "cumulative_score": 0}) #key is `productId` -> {"productId":{"review_counts": int, "cumulative_score": float}}
     customerToProductDictionary = defaultdict(lambda: []) #key is `memberId` -> {"memberId":[productA, productB, ...etc]}
     customerVectorDictionary = defaultdict(lambda: []) #key is `memberId` -> {"memberId":[feature1, feature2, etc...]}
+    customerIRD = defaultdict(lambda:defaultdict(lambda:0))
 
     for review in reviews: #build up dictionaries
         if (review["productId"]!= "None" and review["memberId"]!= "None"):
@@ -43,8 +44,9 @@ def IRD():
             except ZeroDivisionError:
                 AvgProductRating = UserRating
             IRD = (UserRating - AvgProductRating) / 4
-            #print(IRD)
+            customerIRD[UserID][ProductID] = IRD
 
+    return customerIRD
         #customerVectorDictionary[]
         #print(customerToProductDictionary[key])
 
